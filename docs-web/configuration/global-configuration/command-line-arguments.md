@@ -176,4 +176,15 @@ Below we describe the available command-line arguments:
 	Specifies the address of a running Spire agent. **For use with NGINX Service Mesh only**.
 
 	- If the argument is set, but the Ingress Controller is unable to connect to the Spire Agent, the Ingress Controller will fail to start.
+
+.. option:: -ready-status
+
+	Enables liveness endpoint "/nginx-ready". The endpoint returns a success code when NGINX has loaded all the config after startup.
+
+.. option:: -ready-status-port
+
+	The HTTP port for the liveness endpoint.
+
+	Format: ``[1024 - 65535]`` (default 8081)
+
 ```

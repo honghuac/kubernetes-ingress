@@ -108,6 +108,8 @@ type LoadBalancerController struct {
 	transportServerValidator      *validation.TransportServerValidator
 	spiffeController              *spiffeController
 	syncLock                      sync.Mutex
+	firstRun                      bool
+	isNginxReady                  bool
 }
 
 var keyFunc = cache.DeletionHandlingMetaNamespaceKeyFunc
@@ -136,6 +138,7 @@ type NewLoadBalancerControllerInput struct {
 	GlobalConfigurationValidator *validation.GlobalConfigurationValidator
 	TransportServerValidator     *validation.TransportServerValidator
 	SpireAgentAddress            string
+	FirstRun                     bool
 }
 
 // NewLoadBalancerController creates a controller
@@ -159,6 +162,7 @@ func NewLoadBalancerController(input NewLoadBalancerControllerInput) *LoadBalanc
 		metricsCollector:             input.MetricsCollector,
 		globalConfigurationValidator: input.GlobalConfigurationValidator,
 		transportServerValidator:     input.TransportServerValidator,
+		firstRun:                     input.FirstRun,
 	}
 
 	eventBroadcaster := record.NewBroadcaster()
@@ -224,7 +228,6 @@ func NewLoadBalancerController(input NewLoadBalancerControllerInput) *LoadBalanc
 	}
 
 	lbc.updateIngressMetrics()
-
 	return lbc
 }
 
@@ -742,6 +745,12 @@ func (lbc *LoadBalancerController) sync(task task) {
 		lbc.syncGlobalConfiguration(task)
 	case transportserver:
 		lbc.syncTransportServer(task)
+	}
+
+	if lbc.firstRun && lbc.syncQueue.Len() == 0 {
+		lbc.firstRun = false
+		lbc.isNginxReady = true
+		glog.V(3).Infof("NGINX is ready")
 	}
 }
 
@@ -2728,4 +2737,8 @@ func (lbc *LoadBalancerController) syncSVIDRotation(svidResponse *workload.X509S
 	if err != nil {
 		glog.Errorf("failed to rotate SPIFFE certificates: %v", err)
 	}
+}
+
+func (lbc *LoadBalancerController) IsNginxReady() bool {
+	return lbc.isNginxReady
 }
