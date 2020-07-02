@@ -992,6 +992,10 @@ func (lbc *LoadBalancerController) syncVirtualServer(task task) {
 		msg := fmt.Sprintf("Configuration for %v/%v was added or updated %s", vsr.Namespace, vsr.Name, vsrEventWarningMessage)
 		lbc.recorder.Eventf(vsr, vsrEventType, vsrEventTitle, msg)
 
+		if addErr != nil {
+			state = conf_v1.StateInvalid
+		}
+
 		if lbc.reportVsVsrStatusEnabled() {
 			vss := []*conf_v1.VirtualServer{vs}
 			err = lbc.statusUpdater.UpdateVirtualServerRouteStatusWithReferencedBy(vsr, state, vsrEventTitle, msg, vss)
