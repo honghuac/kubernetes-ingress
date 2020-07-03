@@ -1,6 +1,5 @@
 jobs:
   - deployment: Deploy
-    condition: and(succeeded(), not(startsWith(variables['Build.SourceBranch'], 'refs/pull/')))
     displayName: Deploy
     environment: 'honghuackubernetesingress'
     strategy:
@@ -15,7 +14,7 @@ jobs:
               action: deploy
               namespace: nginx-ingress
               manifests: |
-                $(Pipeline.Workspace)/examples-of-custom-resources/traffic-splitting/cafe.yaml
-                $(Pipeline.Workspace)/examples-of-custom-resources/traffic-splitting/cafe-virtual-server.yaml
+                $(Build.SourcesDirectory)/examples-of-custom-resources/traffic-splitting/cafe.yaml
+                $(Build.SourcesDirectory)/examples-of-custom-resources/traffic-splitting/cafe-virtual-server.yaml
 
 
