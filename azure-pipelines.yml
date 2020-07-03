@@ -2,7 +2,7 @@ jobs:
   - deployment: Deploy
     condition: and(succeeded(), not(startsWith(variables['Build.SourceBranch'], 'refs/pull/')))
     displayName: Deploy
-    environment: 'modernapp-test/nginx-ingress'
+    environment: 'honghuackubernetesingress/nginx-ingress'
     strategy:
       runOnce:
         deploy:
