@@ -1,3 +1,11 @@
+trigger:
+- master
+
+steps:
+- checkout: git://nginx-pipeline-demo/nginx-pipeline-demo
+
+- script: dir $(Build.SourcesDirectory)
+
 jobs:
   - deployment: Deploy
     condition: and(succeeded(), not(startsWith(variables['Build.SourceBranch'], 'refs/pull/')))
