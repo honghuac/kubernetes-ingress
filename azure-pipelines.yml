@@ -13,11 +13,7 @@ steps:
 - script: echo Start of Deployment
   displayName: 'Deployment Begins'
 
-stages:
-- stage: Deploy
-  displayName: Deploy stage
-
-  jobs:
+jobs:
   - deployment: Deploy
     condition: and(succeeded(), not(startsWith(variables['Build.SourceBranch'], 'refs/pull/')))
     displayName: Deploy
@@ -38,5 +34,5 @@ stages:
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
-                $(containerRegistry)/$(imageRepository):$(tag)
+                $(containerRegistry)/$(imageRepository):$(tag
 
