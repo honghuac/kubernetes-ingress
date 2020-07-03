@@ -1,13 +1,4 @@
-trigger:
-- master
-
-steps:
-- checkout: git://nginx-pipeline-demo/nginx-pipeline-demo
-
-- script: dir $(Build.SourcesDirectory)
-
 jobs:
-- job: Deploy App
   - deployment: Deploy
     condition: and(succeeded(), not(startsWith(variables['Build.SourceBranch'], 'refs/pull/')))
     displayName: Deploy
@@ -16,6 +7,7 @@ jobs:
       runOnce:
         deploy:
           steps:
+          - checkout: git://nginx-pipeline-demo/nginx-pipeline-dem
           - task: KubernetesManifest@0
             displayName: Deploy to Kubernetes cluster
             inputs:
