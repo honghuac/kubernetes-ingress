@@ -2,7 +2,7 @@ jobs:
   - deployment: Deploy
     condition: and(succeeded(), not(startsWith(variables['Build.SourceBranch'], 'refs/pull/')))
     displayName: Deploy
-    environment: 'honghuackubernetesingress/nginx-ingress'
+    environment: 'honghuackubernetesingress'
     strategy:
       runOnce:
         deploy:
@@ -11,6 +11,7 @@ jobs:
             displayName: Deploy to Kubernetes cluster
             inputs:
               action: deploy
+              namespace: nginx-ingress
               manifests: |
                 $(Pipeline.Workspace)/tree/master/examples-of-custom-resources/traffic-splitting/cafe.yml
                 $(Pipeline.Workspace)/tree/master/examples-of-custom-resources/traffic-splitting/cafe-virtual-server.yml
