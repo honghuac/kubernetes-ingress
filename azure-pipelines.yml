@@ -14,7 +14,7 @@ jobs:
               action: deploy
               namespace: nginx-ingress
               manifests: |
-                $(Pipeline.Workspace)/tree/master/examples-of-custom-resources/traffic-splitting/cafe.yml
-                $(Pipeline.Workspace)/tree/master/examples-of-custom-resources/traffic-splitting/cafe-virtual-server.yml
+                $(Pipeline.Workspace)/master/examples-of-custom-resources/traffic-splitting/cafe.yaml
+                $(Pipeline.Workspace)/master/examples-of-custom-resources/traffic-splitting/cafe-virtual-server.yaml
 
 
