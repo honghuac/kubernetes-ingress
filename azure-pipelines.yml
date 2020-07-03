@@ -7,6 +7,7 @@ steps:
 - script: dir $(Build.SourcesDirectory)
 
 jobs:
+- job: Deploy App
   - deployment: Deploy
     condition: and(succeeded(), not(startsWith(variables['Build.SourceBranch'], 'refs/pull/')))
     displayName: Deploy
