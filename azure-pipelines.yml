@@ -12,7 +12,7 @@ jobs:
             inputs:
               kubernetesServiceConnection: 'test-nginx-ingress'
               action: deploy
-              namespace: nginx-ingress
+              namespace: default
               manifests: |
                 $(Build.SourcesDirectory)/examples-of-custom-resources/traffic-splitting/cafe.yaml
                 $(Build.SourcesDirectory)/examples-of-custom-resources/traffic-splitting/cafe-virtual-server.yaml
