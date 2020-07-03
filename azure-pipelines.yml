@@ -2,9 +2,6 @@ jobs:
   - deployment: Deploy
     condition: and(succeeded(), not(startsWith(variables['Build.SourceBranch'], 'refs/pull/')))
     displayName: Deploy
-    pool:
-      vmImage: $(vmImageName)
-    environment: $(envName).$(resourceName)
     strategy:
       runOnce:
         deploy:
@@ -16,8 +13,5 @@ jobs:
               manifests: |
                 $(Pipeline.Workspace)/tree/master/examples-of-custom-resources/traffic-splitting/cafe.yml
                 $(Pipeline.Workspace)/tree/master/examples-of-custom-resources/traffic-splitting/cafe-virtual-server.yml
-              imagePullSecrets: |
-                $(imagePullSecret)
-              containers: |
-                $(containerRegistry)/$(imageRepository):$(tag
+
 
